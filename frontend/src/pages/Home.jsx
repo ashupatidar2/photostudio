@@ -63,6 +63,8 @@ const Home = () => {
         return () => ctx.revert();
     }, []);
 
+    const [selectedImage, setSelectedImage] = useState(null);
+
     const portfolioImages = [
         { id: 1, category: 'wedding', size: 'large', image: '/images/wedding.png' },
         { id: 2, category: 'wedding', size: 'tall', image: '/images/bride-1.png' },
@@ -83,6 +85,45 @@ const Home = () => {
 
     return (
         <div className="bg-[#050505] text-white overflow-hidden">
+            {/* Lightbox Modal */}
+            <AnimatePresence>
+                {selectedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setSelectedImage(null)}
+                        className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-10 cursor-zoom-out"
+                    >
+                        <motion.button
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="absolute top-10 right-10 text-white hover:text-gold transition-colors"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            <ArrowRight className="w-10 h-10 rotate-180" />
+                        </motion.button>
+
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative w-full max-w-5xl max-h-[70vh] aspect-auto flex items-center justify-center"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <img
+                                src={selectedImage}
+                                className="w-auto h-full max-h-[70vh] object-contain shadow-2xl rounded-lg"
+                                alt="Gallery Preview"
+                            />
+                            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 tracking-[1em] text-xs font-bold text-gold uppercase whitespace-nowrap opacity-50">
+                                Ashu Patidar Photography
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Editorial Hero */}
             <section className="relative h-screen flex items-center justify-center p-4">
                 <AnimatePresence mode="wait">
@@ -174,16 +215,17 @@ const Home = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
-                                className={`group relative overflow-hidden rounded-[2rem] shadow-2xl ${item.size === 'large' ? 'masonry-item-large' :
+                                onDoubleClick={() => setSelectedImage(item.image)}
+                                className={`group relative overflow-hidden rounded-[2rem] shadow-2xl cursor-pointer ${item.size === 'large' ? 'masonry-item-large' :
                                     item.size === 'tall' ? 'masonry-item-tall' :
                                         item.size === 'wide' ? 'masonry-item-wide' : ''
                                     }`}
                             >
                                 <img src={item.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Portfolio" />
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center backdrop-blur-sm">
-                                    <div className="text-center p-8">
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                                    <div className="text-center p-8 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Camera className="w-12 h-12 text-gold mx-auto mb-4" />
-                                        <p className="text-xs tracking-[0.4em] uppercase font-bold">View Project</p>
+                                        <p className="text-[10px] tracking-[0.4em] uppercase font-bold text-white">Double Click to Preview</p>
                                     </div>
                                 </div>
                             </motion.div>
