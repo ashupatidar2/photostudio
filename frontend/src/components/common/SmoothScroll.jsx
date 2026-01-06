@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 
 const SmoothScroll = ({ children }) => {
+    const { pathname } = useLocation();
+
     useEffect(() => {
         const lenis = new Lenis({
             duration: 1.2,
@@ -15,6 +18,9 @@ const SmoothScroll = ({ children }) => {
             infinite: false,
         });
 
+        // Store lenis on window for easy access if needed
+        window.lenis = lenis;
+
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
@@ -24,8 +30,18 @@ const SmoothScroll = ({ children }) => {
 
         return () => {
             lenis.destroy();
+            window.lenis = null;
         }
     }, []);
+
+    // Scroll to top on route change
+    useEffect(() => {
+        if (window.lenis) {
+            window.lenis.scrollTo(0, { immediate: true });
+        } else {
+            window.scrollTo(0, 0);
+        }
+    }, [pathname]);
 
     return <>{children}</>;
 };
