@@ -99,7 +99,7 @@ const Home = () => {
 
                 <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">
                     <motion.div style={{ y: y1 }} className="text-center mb-10">
-                        <span className="editorial-title block">Luxury 2024</span>
+                        <span className="editorial-title block text-white/40">Luxury 2026</span>
                         <h1 className="text-[12vw] md:text-[8vw] font-black uppercase text-outline absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-full opacity-30 select-none">
                             ASHU PATIDAR
                         </h1>
@@ -175,8 +175,8 @@ const Home = () => {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                                 className={`group relative overflow-hidden rounded-[2rem] shadow-2xl ${item.size === 'large' ? 'masonry-item-large' :
-                                        item.size === 'tall' ? 'masonry-item-tall' :
-                                            item.size === 'wide' ? 'masonry-item-wide' : ''
+                                    item.size === 'tall' ? 'masonry-item-tall' :
+                                        item.size === 'wide' ? 'masonry-item-wide' : ''
                                     }`}
                             >
                                 <img src={item.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Portfolio" />
