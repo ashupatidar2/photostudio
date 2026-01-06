@@ -1,69 +1,67 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Camera } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 const Portfolio = () => {
-    const [selectedCategory, setSelectedCategory] = useState('all');
-    const [galleries, setGalleries] = useState([]);
+    const [searchParams] = useSearchParams();
+    const categoryParam = searchParams.get('category');
+    const [activeCategory, setActiveCategory] = useState(categoryParam || 'all');
 
     const categories = [
-        { id: 'all', name: 'All' },
-        { id: 'wedding', name: 'Weddings' },
-        { id: 'pre-wedding', name: 'Pre-Wedding' },
-        { id: 'birthday', name: 'Birthdays' },
-        { id: 'events', name: 'Events' },
+        { id: 'all', name: 'ALL' },
+        { id: 'wedding', name: 'WEDDING' },
+        { id: 'prewedding', name: 'PRE WEDDING' },
+        { id: 'maternity', name: 'MATERNITY' },
+        { id: 'baby', name: 'BABY' },
+        { id: 'models', name: 'MODELS' },
     ];
 
-    // Dummy gallery data
-    const dummyGalleries = [
-        { id: 1, title: 'Sarah & John Wedding', category: 'wedding', imageCount: 150, image: '/images/wedding.png' },
-        { id: 2, title: 'Romantic Pre-Wedding', category: 'pre-wedding', imageCount: 80, image: '/images/prewedding.png' },
-        { id: 3, title: 'Emma\'s 5th Birthday', category: 'birthday', imageCount: 60, image: '/images/birthday.png' },
-        { id: 4, title: 'Corporate Gala 2024', category: 'events', imageCount: 120, image: '/images/corporate.png' },
-        { id: 5, title: 'Beach Wedding Ceremony', category: 'wedding', imageCount: 200, image: '/images/wedding.png' },
-        { id: 6, title: 'Sunset Couple Shoot', category: 'pre-wedding', imageCount: 50, image: '/images/prewedding.png' },
-        { id: 7, title: 'Kids Birthday Party', category: 'birthday', imageCount: 45, image: '/images/birthday.png' },
-        { id: 8, title: 'Tech Conference 2024', category: 'events', imageCount: 90, image: '/images/corporate.png' },
+    const portfolioItems = [
+        { id: 1, category: 'wedding', image: '/images/services/wedding.png' },
+        { id: 2, category: 'wedding', image: '/images/bride-1.png' },
+        { id: 3, category: 'prewedding', image: '/images/services/portrait.png' },
+        { id: 4, category: 'wedding', image: '/images/bride-2.png' },
+        { id: 5, category: 'wedding', image: '/images/services/event.png' },
+        { id: 6, category: 'prewedding', image: '/images/pre-wedding.png' },
+        { id: 7, category: 'wedding', image: '/images/bride-1.png' },
+        { id: 8, category: 'prewedding', image: '/images/services/portrait.png' },
+        { id: 9, category: 'wedding', image: '/images/services/wedding.png' },
+        { id: 10, category: 'maternity', image: '/images/services/event.png' },
+        { id: 11, category: 'baby', image: '/images/bride-2.png' },
+        { id: 12, category: 'models', image: '/images/bride-1.png' },
     ];
 
-    useEffect(() => {
-        setGalleries(dummyGalleries);
-    }, []);
-
-    const filteredGalleries = selectedCategory === 'all'
-        ? galleries
-        : galleries.filter(g => g.category === selectedCategory);
+    const filteredItems =
+        activeCategory === 'all'
+            ? portfolioItems
+            : portfolioItems.filter((item) => item.category === activeCategory);
 
     return (
         <div className="min-h-screen pt-20">
-            {/* Hero */}
-            <section className="gradient-primary text-white py-20">
-                <div className="container-custom text-center">
+            {/* Header */}
+            <section className="py-20 bg-gray-900 text-white">
+                <div className="container mx-auto px-4 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
-                            Our Portfolio
-                        </h1>
-                        <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-                            Explore our collection of beautiful moments captured
-                        </p>
+                        <h1 className="text-5xl md:text-6xl font-display font-bold mb-4">Portfolio</h1>
+                        <p className="text-xl text-gray-300">Our Best Work</p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Category Filter */}
-            <section className="bg-white py-8 sticky top-20 z-40 shadow-md">
-                <div className="container-custom">
-                    <div className="flex flex-wrap gap-4 justify-center">
+            {/* Category Filters */}
+            <section className="py-8 bg-white dark:bg-gray-900 sticky top-20 z-40 shadow-md">
+                <div className="container mx-auto px-4">
+                    <div className="flex flex-wrap justify-center gap-4">
                         {categories.map((category) => (
                             <button
                                 key={category.id}
-                                onClick={() => setSelectedCategory(category.id)}
-                                className={`px-6 py-3 rounded-lg font-medium transition-all ${selectedCategory === category.id
-                                    ? 'gradient-primary text-white shadow-lg'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                onClick={() => setActiveCategory(category.id)}
+                                className={`px-8 py-3 font-semibold tracking-wider transition-all ${activeCategory === category.id
+                                        ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+                                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                                     }`}
                             >
                                 {category.name}
@@ -73,55 +71,27 @@ const Portfolio = () => {
                 </div>
             </section>
 
-            {/* Gallery Grid */}
-            <section className="section-padding bg-gray-50">
-                <div className="container-custom">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredGalleries.map((gallery, index) => (
+            {/* Portfolio Grid */}
+            <section className="py-12 bg-gray-50 dark:bg-gray-800">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {filteredItems.map((item, index) => (
                             <motion.div
-                                key={gallery.id}
+                                key={item.id}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: index * 0.1 }}
-                                className="card-hover overflow-hidden group cursor-pointer"
+                                transition={{ delay: index * 0.05 }}
+                                className="group relative overflow-hidden aspect-square cursor-pointer"
                             >
-                                {/* Image Placeholder */}
-                                <div className="h-72 bg-gradient-to-br from-primary-400 to-secondary-500 relative overflow-hidden">
-                                    {gallery.image ? (
-                                        <img
-                                            src={gallery.image}
-                                            alt={gallery.title}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                        />
-                                    ) : (
-                                        <>
-                                            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all"></div>
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <Camera className="w-16 h-16 text-white/80 group-hover:scale-110 transition-transform" />
-                                            </div>
-                                        </>
-                                    )}
-                                    {/* Image Count Badge */}
-                                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
-                                        {gallery.imageCount} photos
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <div className="p-6">
-                                    <h3 className="text-xl font-semibold mb-2">{gallery.title}</h3>
-                                    <p className="text-gray-600 capitalize">{gallery.category.replace('-', ' ')}</p>
-                                </div>
+                                <img
+                                    src={item.image}
+                                    alt={`Portfolio ${item.id}`}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all"></div>
                             </motion.div>
                         ))}
                     </div>
-
-                    {filteredGalleries.length === 0 && (
-                        <div className="text-center py-20">
-                            <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                            <p className="text-xl text-gray-600">No galleries found in this category</p>
-                        </div>
-                    )}
                 </div>
             </section>
         </div>

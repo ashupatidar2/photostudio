@@ -1,140 +1,52 @@
-# PhotoStudio - Quick Start Guide
+# PhotoStudio - Quick Start Guide 📸 ✨
+
+Welcome to the **Ashu Patidar Photography** project (PhotoStudio). This guide will help you get the application running locally in minutes.
 
 ## 🚀 Get Started in 3 Steps
 
-### Step 1: Start the Application
-
+### Step 1: Clone & Setup Environment
 ```bash
-cd /home/vinayak/photostudio
+git clone <repository-url>
+cd photostudio
 
-# Using Docker (Recommended)
-make build
-make up
-
-# Wait for services to start (about 30 seconds)
+# Windows PowerShell
+cp .env.example .env
 ```
 
-### Step 2: Initialize Database
-
+### Step 2: Start Backend & Services
 ```bash
-# Run migrations
-make migrate
-
-# Seed with sample data
-make seed
+cd backend
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload
 ```
+*Note: Ensure your PostgreSQL database is running and matching the credentials in `.env`.*
 
-### Step 3: Access the Application
-
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
-
-## 🔑 Login Credentials
-
-- **Admin**: admin@photostudio.com / admin123
-- **Photographer**: photographer@photostudio.com / photo123
-- **Client**: client@example.com / client123
-
-## 📱 What You Can Do
-
-### As a Client
-1. Browse services and portfolio
-2. Create bookings
-3. View booking status
-4. Submit testimonials
-
-### As Admin
-1. Manage services and packages
-2. Approve/reject bookings
-3. Upload gallery images
-4. View statistics
-5. Export bookings to CSV
-
-## 🛠️ Development Commands
-
+### Step 3: Start Frontend
 ```bash
-# View logs
-make logs
-
-# Stop services
-make down
-
-# Run tests
-make test
-
-# Clean up everything
-make clean
-```
-
-## 📚 Documentation
-
-- Full README: `/home/vinayak/photostudio/README.md`
-- API Documentation: http://localhost:8000/docs
-- Walkthrough: See artifacts
-
-## 🎨 Features Implemented
-
-### Backend (100% Complete)
-✅ Authentication (JWT)
-✅ User management
-✅ Services CRUD
-✅ Booking system
-✅ Gallery & image upload
-✅ Email notifications
-✅ Admin dashboard
-✅ CSV export
-✅ Image processing
-✅ Storage abstraction (local/S3)
-
-### Frontend (Core Complete)
-✅ React + Vite + Tailwind CSS
-✅ Authentication flow
-✅ Protected routes
-✅ Responsive design
-✅ Premium UI with animations
-✅ Home page (fully designed)
-✅ Login page (fully designed)
-📝 Other pages (placeholders ready for implementation)
-
-## 🔧 Troubleshooting
-
-### Port Already in Use
-```bash
-# Stop existing services
-make down
-
-# Or change ports in docker-compose.yml
-```
-
-### Database Connection Error
-```bash
-# Wait for PostgreSQL to be ready
-docker-compose logs postgres
-
-# Restart services
-make down
-make up
-```
-
-### Frontend Not Loading
-```bash
-# Check if backend is running
-curl http://localhost:8000/api/health
-
-# Rebuild frontend
-cd frontend
+cd ../frontend
 npm install
 npm run dev
 ```
 
-## 📞 Support
+## 🔑 Login Credentials
+*Once you run the seed script or use the default database:*
+- **Admin**: `admin@photostudio.com` / `admin123`
+- **Photographer**: `photographer@photostudio.com` / `photo123`
+- **Client**: `client@example.com` / `client123`
 
-For issues or questions, check:
-1. README.md for detailed documentation
-2. API docs at /docs for endpoint details
-3. Walkthrough artifact for architecture overview
+## 🎨 Luxury Features Overview
+- **Cinematic Experience**: Implemented Smooth Scroll (Lenis) and parallax effects.
+- **Editorial Design**: Custom typography (Cormorant Garamond) and masonry gallery layouts.
+- **Functional Booking**: Redesigned Step-by-Step booking form with GSAP animations.
+
+## 🛠️ Essential Commands
+| Command | Action |
+| :--- | :--- |
+| `npm run dev` | Start Frontend Dev Server |
+| `uvicorn app.main:app --reload` | Start Backend API |
+| `python seed.py` | Populate Database with Sample Luxury Data |
 
 ---
-
-**Enjoy building with PhotoStudio! 📸**
+**Enjoy the cinematic excellence! 🎞️✨**

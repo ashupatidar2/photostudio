@@ -1,173 +1,81 @@
 import { motion } from 'framer-motion';
-import { Camera, Award, Users, Heart } from 'lucide-react';
+import { Camera, Award, Heart, Check } from 'lucide-react';
 
 const About = () => {
-    const team = [
-        {
-            name: 'John Smith',
-            role: 'Lead Photographer',
-            bio: 'With over 10 years of experience, John specializes in wedding and portrait photography.',
-        },
-        {
-            name: 'Sarah Johnson',
-            role: 'Event Photographer',
-            bio: 'Sarah brings creativity and energy to every event she shoots.',
-        },
-        {
-            name: 'Mike Chen',
-            role: 'Photo Editor',
-            bio: 'Mike ensures every photo looks perfect with his expert editing skills.',
-        },
-    ];
-
     const stats = [
-        { icon: Camera, value: '500+', label: 'Events Covered' },
-        { icon: Users, value: '1000+', label: 'Happy Clients' },
-        { icon: Award, value: '15+', label: 'Awards Won' },
-        { icon: Heart, value: '10+', label: 'Years Experience' },
+        { label: 'Years Experience', value: '10+' },
+        { label: 'Weddings Shot', value: '500+' },
+        { label: 'Happy Clients', value: '1000+' },
+        { label: 'Awards Won', value: '25+' },
     ];
 
     return (
-        <div className="min-h-screen pt-20">
-            {/* Hero */}
-            <section className="gradient-primary text-white py-20">
-                <div className="container-custom text-center">
+        <div className="bg-[#050505] text-white pt-20">
+            {/* Cinematic Hero */}
+            <section className="relative py-40 overflow-hidden flex items-center justify-center">
+                <div className="editorial-title absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] opacity-[0.03]">VISIONARY</div>
+                <div className="relative z-10 text-center">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.5 }}
                     >
-                        <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
-                            About PhotoStudio
+                        <h4 className="text-gold font-serif italic text-2xl mb-4 tracking-[0.3em] uppercase">The Artist Behind</h4>
+                        <h1 className="text-7xl md:text-[10rem] font-black leading-none mb-10">
+                            ASHU <br /><span className="text-outline text-gold italic font-serif lowercase">Patidar</span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-                            Capturing life's precious moments with passion and creativity
-                        </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Our Story */}
-            <section className="section-padding bg-white">
-                <div className="container-custom">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <h2 className="text-4xl font-display font-bold mb-6">Our Story</h2>
-                            <p className="text-lg text-gray-600 mb-6">
-                                Founded in 2014, PhotoStudio began with a simple mission: to capture the beauty and emotion of life's most important moments. What started as a small team of passionate photographers has grown into a full-service photography studio serving clients across the region.
+            {/* Editorial Story */}
+            <section className="py-20 bg-white text-black">
+                <div className="container mx-auto px-4">
+                    <div className="grid lg:grid-cols-2 gap-32 items-center">
+                        <div className="relative paper-mask overflow-hidden rounded-[4rem] aspect-[4/5] shadow-2xl">
+                            <img src="/images/hero-couple.png" alt="Photography Store" className="w-full h-full object-cover scale-110" />
+                        </div>
+                        <div className="reveal-text">
+                            <h2 className="text-5xl md:text-[6rem] mb-10 leading-[0.8]">Legacy of <br /><span className="text-gold italic font-serif">True Light</span></h2>
+                            <p className="text-2xl text-gray-500 mb-10 leading-relaxed font-body">
+                                Based in Indore, our studio is dedicated to the art of visual storytelling. We don't just take pictures; we craft heirlooms that breathe life into your most precious memories.
                             </p>
-                            <p className="text-lg text-gray-600 mb-6">
-                                We believe that every moment tells a story, and our job is to preserve those stories in the most beautiful way possible. Whether it's a wedding, a corporate event, or a family portrait, we approach each project with the same level of dedication and creativity.
-                            </p>
-                            <p className="text-lg text-gray-600">
-                                Today, we're proud to have captured over 500 events and created lasting memories for more than 1,000 happy clients. Our work has been recognized with numerous awards, but our greatest reward is seeing the joy on our clients' faces when they see their photos.
-                            </p>
-                        </motion.div>
+                            <div className="grid grid-cols-2 gap-8">
+                                {['Cinematic Art', 'Editorial Vision', 'Soulful Frames', 'Elite Quality'].map((item, i) => (
+                                    <div key={i} className="flex items-center gap-4">
+                                        <Check className="text-gold w-5 h-5" />
+                                        <span className="font-bold uppercase tracking-widest text-xs">{item}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Stats */}
-            <section className="section-padding bg-gray-50">
-                <div className="container-custom">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {stats.map((stat, index) => (
+            {/* Stats Reveal */}
+            <section className="py-40 bg-[#050505] relative overflow-hidden">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+                        {stats.map((stat, i) => (
                             <motion.div
-                                key={index}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="text-center"
-                            >
-                                <div className="w-16 h-16 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <stat.icon className="w-8 h-8 text-white" />
-                                </div>
-                                <div className="text-4xl font-bold text-gradient mb-2">{stat.value}</div>
-                                <div className="text-gray-600">{stat.label}</div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Team */}
-            <section className="section-padding bg-white">
-                <div className="container-custom">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl font-display font-bold mb-4">Meet Our Team</h2>
-                        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                            Talented professionals dedicated to capturing your special moments
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {team.map((member, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
+                                key={i}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="card text-center"
+                                className="text-center group"
                             >
-                                {/* Photo Placeholder */}
-                                <div className="w-32 h-32 gradient-primary rounded-full mx-auto mb-6 flex items-center justify-center">
-                                    <Camera className="w-16 h-16 text-white" />
-                                </div>
-
-                                <h3 className="text-2xl font-semibold mb-2">{member.name}</h3>
-                                <p className="text-primary-600 font-medium mb-4">{member.role}</p>
-                                <p className="text-gray-600">{member.bio}</p>
+                                <p className="text-6xl md:text-8xl font-black text-outline mb-4 group-hover:text-gold transition-colors">{stat.value}</p>
+                                <p className="text-gray-500 font-bold text-xs uppercase tracking-[0.4em]">{stat.label}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Values */}
-            <section className="section-padding bg-gray-50">
-                <div className="container-custom">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl font-display font-bold mb-4">Our Values</h2>
-                        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                            The principles that guide everything we do
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {[
-                            {
-                                title: 'Quality',
-                                description: 'We never compromise on the quality of our work. Every photo is carefully edited to perfection.',
-                            },
-                            {
-                                title: 'Creativity',
-                                description: 'We bring fresh, creative perspectives to every shoot, ensuring unique and memorable photos.',
-                            },
-                            {
-                                title: 'Professionalism',
-                                description: 'From the first consultation to the final delivery, we maintain the highest standards of professionalism.',
-                            },
-                        ].map((value, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="card p-8 text-center"
-                            >
-                                <h3 className="text-2xl font-semibold mb-4">{value.title}</h3>
-                                <p className="text-gray-600">{value.description}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                .font-serif { font-family: 'Cormorant Garamond', serif; }
+            `}} />
         </div>
     );
 };

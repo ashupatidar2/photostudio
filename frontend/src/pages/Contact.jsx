@@ -1,256 +1,91 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { Mail, Phone, MapPin, Send, Instagram, Facebook, Youtube } from 'lucide-react';
 
 const Contact = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
-    });
-    const [loading, setLoading] = useState(false);
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-
-        // Simulate API call
-        setTimeout(() => {
-            toast.success('Message sent successfully! We\'ll get back to you soon.');
-            setFormData({
-                name: '',
-                email: '',
-                phone: '',
-                subject: '',
-                message: '',
-            });
-            setLoading(false);
-        }, 1000);
-    };
-
     return (
-        <div className="min-h-screen pt-20">
-            {/* Hero */}
-            <section className="gradient-primary text-white py-20">
-                <div className="container-custom text-center">
+        <div className="bg-[#050505] text-white pt-20">
+            {/* Cinematic Hero */}
+            <section className="relative py-40 overflow-hidden flex items-center justify-center text-center">
+                <div className="editorial-title absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] opacity-[0.03]">CONNECT</div>
+                <div className="relative z-10 w-full px-4">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1.5 }}
                     >
-                        <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
-                            Get In Touch
+                        <h4 className="text-gold font-serif italic text-2xl mb-4 tracking-[0.3em] uppercase">Start Your Tale</h4>
+                        <h1 className="text-7xl md:text-[10rem] font-black leading-none mb-10">
+                            INITIATE <br /><span className="text-outline text-gold italic font-serif lowercase">Collaborations</span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-                            Have a question or want to book a session? We'd love to hear from you!
-                        </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Contact Section */}
-            <section className="section-padding bg-gray-50">
-                <div className="container-custom">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        {/* Contact Info */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                        >
-                            <h2 className="text-3xl font-display font-bold mb-6">Contact Information</h2>
-                            <p className="text-gray-600 mb-8">
-                                Feel free to reach out to us through any of the following channels. We're here to help!
-                            </p>
-
-                            <div className="space-y-6">
-                                {/* Address */}
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <MapPin className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-lg mb-1">Visit Us</h3>
-                                        <p className="text-gray-600">
-                                            123 Photography Lane<br />
-                                            Creative City, CC 12345
-                                        </p>
-                                    </div>
+            {/* Editorial Contact Grid */}
+            <section className="py-20 bg-white text-black">
+                <div className="container mx-auto px-4">
+                    <div className="grid lg:grid-cols-2 gap-32">
+                        {/* Info Section */}
+                        <div className="reveal-text">
+                            <h2 className="text-6xl md:text-[6rem] mb-12 leading-none">Tell Us <br /><span className="text-gold italic font-serif">Your Story</span></h2>
+                            <div className="space-y-12">
+                                <div className="group border-b border-gray-100 pb-8 hover:border-gold transition-all">
+                                    <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.4em] mb-4">Voice</p>
+                                    <p className="text-3xl md:text-5xl font-display group-hover:text-gold transition-colors">+91 91310 33810</p>
                                 </div>
-
-                                {/* Phone */}
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <Phone className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-lg mb-1">Call Us</h3>
-                                        <p className="text-gray-600">
-                                            <a href="tel:+1234567890" className="hover:text-primary-600 transition-colors">
-                                                +1 (234) 567-890
-                                            </a>
-                                        </p>
-                                    </div>
+                                <div className="group border-b border-gray-100 pb-8 hover:border-gold transition-all">
+                                    <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.4em] mb-4">Letter</p>
+                                    <p className="text-3xl md:text-5xl font-display group-hover:text-gold transition-colors">hello@ashupatidar.com</p>
                                 </div>
-
-                                {/* Email */}
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <Mail className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-lg mb-1">Email Us</h3>
-                                        <p className="text-gray-600">
-                                            <a href="mailto:info@photostudio.com" className="hover:text-primary-600 transition-colors">
-                                                info@photostudio.com
-                                            </a>
-                                        </p>
-                                    </div>
+                                <div className="group border-b border-gray-100 pb-8 hover:border-gold transition-all">
+                                    <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.4em] mb-4">Atelier</p>
+                                    <p className="text-3xl md:text-5xl font-display group-hover:text-gold transition-colors">Indore, India</p>
                                 </div>
                             </div>
 
-                            {/* Business Hours */}
-                            <div className="mt-8 p-6 bg-white rounded-xl shadow-md">
-                                <h3 className="font-semibold text-lg mb-4">Business Hours</h3>
-                                <div className="space-y-2 text-gray-600">
-                                    <div className="flex justify-between">
-                                        <span>Monday - Friday</span>
-                                        <span className="font-medium">9:00 AM - 6:00 PM</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span>Saturday</span>
-                                        <span className="font-medium">10:00 AM - 4:00 PM</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span>Sunday</span>
-                                        <span className="font-medium">Closed</span>
-                                    </div>
-                                </div>
+                            <div className="mt-20 flex gap-8">
+                                <a href="#" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all hover:border-gold"><Instagram className="w-6 h-6" /></a>
+                                <a href="#" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all hover:border-gold"><Facebook className="w-6 h-6" /></a>
+                                <a href="#" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all hover:border-gold"><Youtube className="w-6 h-6" /></a>
                             </div>
-                        </motion.div>
+                        </div>
 
-                        {/* Contact Form */}
+                        {/* Form Section */}
                         <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="card p-8"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            className="bg-[#050505] p-16 rounded-[4rem] shadow-2xl relative overflow-hidden"
                         >
-                            <h2 className="text-3xl font-display font-bold mb-6">Send Us a Message</h2>
-
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                {/* Name */}
-                                <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Your Name
-                                    </label>
-                                    <input
-                                        id="name"
-                                        name="name"
-                                        type="text"
-                                        required
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        className="input"
-                                        placeholder="John Doe"
-                                    />
+                            <div className="absolute top-0 right-0 p-10 opacity-20"><Send className="w-20 h-20 text-gold" /></div>
+                            <form className="relative z-10 space-y-10">
+                                <div className="grid md:grid-cols-2 gap-10">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold tracking-[0.5em] text-gray-500 uppercase">Your Name</label>
+                                        <input type="text" className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold tracking-[0.5em] text-gray-500 uppercase">Your Email</label>
+                                        <input type="email" className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white" />
+                                    </div>
                                 </div>
-
-                                {/* Email */}
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Email Address
-                                    </label>
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        required
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        className="input"
-                                        placeholder="you@example.com"
-                                    />
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold tracking-[0.5em] text-gray-500 uppercase">Your Vision</label>
+                                    <textarea rows="4" className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white"></textarea>
                                 </div>
-
-                                {/* Phone */}
-                                <div>
-                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Phone Number
-                                    </label>
-                                    <input
-                                        id="phone"
-                                        name="phone"
-                                        type="tel"
-                                        required
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                        className="input"
-                                        placeholder="+1 (234) 567-890"
-                                    />
-                                </div>
-
-                                {/* Subject */}
-                                <div>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Subject
-                                    </label>
-                                    <input
-                                        id="subject"
-                                        name="subject"
-                                        type="text"
-                                        required
-                                        value={formData.subject}
-                                        onChange={handleChange}
-                                        className="input"
-                                        placeholder="How can we help you?"
-                                    />
-                                </div>
-
-                                {/* Message */}
-                                <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                                        Message
-                                    </label>
-                                    <textarea
-                                        id="message"
-                                        name="message"
-                                        rows={5}
-                                        required
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        className="input resize-none"
-                                        placeholder="Tell us more about your requirements..."
-                                    />
-                                </div>
-
-                                {/* Submit */}
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="btn-primary w-full"
-                                >
-                                    {loading ? (
-                                        <div className="spinner mx-auto w-6 h-6 border-2"></div>
-                                    ) : (
-                                        <>
-                                            <Send className="w-5 h-5" />
-                                            Send Message
-                                        </>
-                                    )}
+                                <button className="luxury-btn w-full text-xl py-8 mt-10">
+                                    DELIVER MESSAGE
                                 </button>
                             </form>
                         </motion.div>
                     </div>
                 </div>
             </section>
+
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                .font-serif { font-family: 'Cormorant Garamond', serif; }
+                .font-display { font-family: 'Playfair Display', serif; }
+            `}} />
         </div>
     );
 };
