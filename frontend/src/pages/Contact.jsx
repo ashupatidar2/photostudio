@@ -1,7 +1,44 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, Instagram, Facebook, Youtube } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { createContact } from '../services/api';
 
 const Contact = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: ''
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+    const { token } = useAuth();
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+        setSuccess(false);
+
+        try {
+            await createContact(formData, token);
+            setSuccess(true);
+            setFormData({ name: '', email: '', message: '' });
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="bg-[#050505] text-white">
             {/* Cinematic Hero */}
@@ -57,23 +94,58 @@ const Contact = () => {
                             className="bg-[#050505] p-16 rounded-[4rem] shadow-2xl relative overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-10 opacity-20"><Send className="w-20 h-20 text-gold" /></div>
-                            <form className="relative z-10 space-y-10">
+                            <form onSubmit={handleSubmit} className="relative z-10 space-y-10">
+                                {success && (
+                                    <div className="bg-green-500/10 border border-green-500/50 text-green-400 px-6 py-4 rounded-lg">
+                                        Message sent successfully! We'll get back to you soon.
+                                    </div>
+                                )}
+                                {error && (
+                                    <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-6 py-4 rounded-lg">
+                                        {error}
+                                    </div>
+                                )}
                                 <div className="grid md:grid-cols-2 gap-10">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-bold tracking-[0.5em] text-gray-500 uppercase">Your Name</label>
-                                        <input type="text" className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white" />
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white"
+                                        />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-bold tracking-[0.5em] text-gray-500 uppercase">Your Email</label>
-                                        <input type="email" className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white" />
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white"
+                                        />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-bold tracking-[0.5em] text-gray-500 uppercase">Your Vision</label>
-                                    <textarea rows="4" className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white"></textarea>
+                                    <textarea
+                                        rows="4"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full bg-white/5 border-b border-white/10 p-4 focus:border-gold outline-none transition-all text-white"
+                                    ></textarea>
                                 </div>
-                                <button className="luxury-btn w-full text-xl py-8 mt-10">
-                                    DELIVER MESSAGE
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="luxury-btn w-full text-xl py-8 mt-10 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {loading ? 'SENDING...' : 'DELIVER MESSAGE'}
                                 </button>
                             </form>
                         </motion.div>

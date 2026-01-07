@@ -18,27 +18,5 @@ pydantic==2.5.0
 pydantic-settings==2.1.0
 email-validator==2.1.0
 
-# Image processing
-Pillow==10.1.0
-
-# Cloud storage
-boto3==1.29.7
-
-# Email
-aiosmtplib==3.0.1
-jinja2==3.1.2
-
-# Utilities
-python-dateutil==2.8.2
-
-# Testing
-pytest==7.4.3
-pytest-asyncio==0.21.1
-httpx==0.25.2
-faker==20.1.0
-
 # CORS
 fastapi-cors==0.0.6
-
-# Rate limiting (optional)
-slowapi==0.1.9

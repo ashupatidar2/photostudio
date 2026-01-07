@@ -5,20 +5,27 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { Check, ArrowRight, ArrowLeft, Calendar as CalendarIcon, Clock, User, Mail, Phone, MapPin } from 'lucide-react';
 import gsap from 'gsap';
+import { useAuth } from '../context/AuthContext';
+import { createInquiry } from '../services/api';
 
 const Booking = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const formRef = useRef(null);
+    const { token, user } = useAuth();
+
     const [currentStep, setCurrentStep] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState('');
     const [formData, setFormData] = useState({
         service: searchParams.get('service') || '',
         package: '',
-        name: '',
-        email: '',
-        phone: '',
+        name: user?.full_name || '',
+        email: user?.email || '',
+        phone: user?.phone || '',
         location: '',
         message: '',
     });
@@ -70,11 +77,40 @@ const Booking = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle booking submission
-        alert('Booking request submitted! We will contact you soon.');
-        navigate('/');
+        setLoading(true);
+        setError('');
+        setSuccess(false);
+
+        // Map frontend fields to backend schema
+        const inquiryData = {
+            subject: `${formData.service.toUpperCase()} - ${formData.package.toUpperCase()}`,
+            message: `
+                Service: ${formData.service}
+                Package: ${formData.package}
+                Date: ${selectedDate.toDateString()}
+                Time: ${selectedTime}
+                Location: ${formData.location}
+                Notes: ${formData.message}
+            `.trim(),
+            metadata: {
+                service: formData.service,
+                package: formData.package,
+                scheduled_date: selectedDate.toISOString(),
+                scheduled_time: selectedTime,
+                location: formData.location
+            }
+        };
+
+        try {
+            await createInquiry(inquiryData, token);
+            setSuccess(true);
+            setTimeout(() => navigate('/'), 3000);
+        } catch (err) {
+            setError(err.message || 'Failed to submit booking inquiry');
+            setLoading(false);
+        }
     };
 
     const nextStep = () => setCurrentStep(currentStep + 1);
@@ -134,6 +170,26 @@ const Booking = () => {
                     {/* Booking Form Card */}
                     <div className="luxury-card booking-reveal">
                         <form onSubmit={handleSubmit} ref={formRef}>
+                            {success && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="bg-green-500/10 border border-green-500/20 text-green-400 p-8 rounded-[2rem] text-center mb-8"
+                                >
+                                    <h3 className="text-2xl font-serif italic mb-2">Booking Inquiry Received!</h3>
+                                    <p className="text-sm tracking-widest uppercase opacity-70">Redirecting to home...</p>
+                                </motion.div>
+                            )}
+
+                            {error && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="bg-red-500/10 border border-red-500/20 text-red-400 p-8 rounded-[2rem] text-center mb-8 text-xs tracking-[0.2em] uppercase"
+                                >
+                                    {error}
+                                </motion.div>
+                            )}
                             <AnimatePresence mode="wait">
                                 {/* Step 1: Service & Package Selection */}
                                 {currentStep === 1 && (
@@ -376,10 +432,11 @@ const Booking = () => {
                                 ) : (
                                     <button
                                         type="submit"
-                                        className="luxury-btn !py-4 !px-12 ml-auto"
+                                        disabled={loading}
+                                        className="luxury-btn !py-4 !px-12 ml-auto disabled:opacity-30"
                                     >
                                         <span className="flex items-center gap-3">
-                                            CONFIRM VISION <Check className="w-5 h-5" />
+                                            {loading ? 'SUBMITTING...' : 'CONFIRM VISION'} <Check className="w-5 h-5" />
                                         </span>
                                     </button>
                                 )}

@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, ChevronDown, LogOut, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../context/AuthContext';
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isServicesOpen, setIsServicesOpen] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+    const { isAuthenticated, user, logout } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,6 +35,7 @@ const Header = () => {
         },
         { name: 'ABOUT US', path: '/about' },
         { name: 'CONTACT', path: '/contact' },
+        { name: 'BOOKING', path: '/booking' },
     ];
 
     return (
@@ -109,12 +113,41 @@ const Header = () => {
                                 </Link>
                             )
                         ))}
-                        <Link
-                            to="/booking"
-                            className="luxury-btn !px-8 !py-3 !text-[10px] !tracking-[0.2em]"
-                        >
-                            INQUIRE NOW
-                        </Link>
+
+                        {/* Auth Buttons */}
+                        {!isAuthenticated ? (
+                            <>
+                                <Link
+                                    to="/login"
+                                    className="text-[11px] font-bold tracking-[0.3em] transition-colors text-gray-600 dark:text-gray-400 hover:text-gold uppercase"
+                                >
+                                    Login
+                                </Link>
+                                <Link
+                                    to="/signup"
+                                    className="luxury-btn !px-6 !py-2.5 !text-[10px] !tracking-[0.2em]"
+                                >
+                                    Sign Up
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <div className="flex items-center gap-2 text-[11px] text-gray-600 dark:text-gray-400">
+                                    <User className="w-4 h-4" />
+                                    <span className="font-medium">{user?.full_name}</span>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        logout();
+                                        navigate('/');
+                                    }}
+                                    className="flex items-center gap-2 text-[11px] font-bold tracking-[0.3em] text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors uppercase"
+                                >
+                                    <LogOut className="w-4 h-4" />
+                                    Logout
+                                </button>
+                            </>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -131,10 +164,11 @@ const Header = () => {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+                        initial={{ opacity: 0, scaleY: 0 }}
+                        animate={{ opacity: 1, scaleY: 1 }}
+                        exit={{ opacity: 0, scaleY: 0 }}
+                        style={{ originY: 0 }}
+                        className="md:hidden bg-[#0A0A0A] border-t border-white/5 overflow-hidden"
                     >
                         <div className="container mx-auto px-4 py-6 space-y-4">
                             {navLinks.map((link) => (
@@ -142,14 +176,54 @@ const Header = () => {
                                     key={link.path}
                                     to={link.path}
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className={`block text-sm font-medium tracking-wider transition-colors ${location.pathname === link.path
-                                        ? 'text-primary-600 dark:text-primary-400'
-                                        : 'text-gray-700 dark:text-gray-300'
+                                    className={`block text-xs font-bold tracking-[0.3em] transition-all duration-300 uppercase py-2 ${location.pathname === link.path
+                                        ? 'text-gold'
+                                        : 'text-gray-400 hover:text-gold'
                                         }`}
                                 >
                                     {link.name}
                                 </Link>
                             ))}
+
+                            {/* Mobile Auth Buttons */}
+                            <div className="pt-6 border-t border-white/5 space-y-6">
+                                {!isAuthenticated ? (
+                                    <>
+                                        <Link
+                                            to="/login"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="block text-xs font-bold tracking-[0.3em] text-gray-400 hover:text-gold uppercase"
+                                        >
+                                            Login
+                                        </Link>
+                                        <Link
+                                            to="/signup"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="luxury-btn block text-center !py-4"
+                                        >
+                                            Sign Up
+                                        </Link>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="flex items-center gap-3 text-xs tracking-widest text-gray-400 py-2">
+                                            <User className="w-4 h-4 text-gold" />
+                                            <span>{user?.full_name}</span>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                logout();
+                                                setIsMobileMenuOpen(false);
+                                                navigate('/');
+                                            }}
+                                            className="flex items-center gap-3 text-xs font-bold tracking-[0.3em] text-red-500 uppercase py-2"
+                                        >
+                                            <LogOut className="w-4 h-4" />
+                                            Logout
+                                        </button>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </motion.div>
                 )}
