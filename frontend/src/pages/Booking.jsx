@@ -100,7 +100,7 @@ const Booking = () => {
     };
 
     return (
-        <div className="min-h-screen pt-32 pb-20 bg-[#050505] text-white">
+        <div className="min-h-screen pt-12 pb-20 bg-[#050505] text-white">
             <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}

@@ -22,13 +22,13 @@ const Portfolio = () => {
         { id: 1, category: 'wedding', image: '/images/services/wedding.png' },
         { id: 2, category: 'wedding', image: '/images/bride-1.png' },
         { id: 3, category: 'prewedding', image: '/images/services/portrait.png' },
-        { id: 4, category: 'wedding', image: '/images/bride-2.png' },
-        { id: 5, category: 'wedding', image: '/images/services/event.png' },
-        { id: 6, category: 'prewedding', image: '/images/pre-wedding.png' },
+        { id: 4, category: 'wedding', image: '/images/services/wedding-ceremony.png' },
+        { id: 5, category: 'wedding', image: '/images/services/wedding-reception.png' },
+        { id: 6, category: 'prewedding', image: '/images/services/prewedding-outdoor.png' },
         { id: 7, category: 'wedding', image: '/images/bride-1.png' },
         { id: 8, category: 'prewedding', image: '/images/services/portrait.png' },
         { id: 9, category: 'wedding', image: '/images/services/wedding.png' },
-        { id: 10, category: 'maternity', image: '/images/services/event.png' },
+        { id: 10, category: 'maternity', image: '/images/bride-1.png' },
         { id: 11, category: 'baby', image: '/images/bride-2.png' },
         { id: 12, category: 'models', image: '/images/bride-1.png' },
     ];
@@ -39,7 +39,7 @@ const Portfolio = () => {
             : portfolioItems.filter((item) => item.category === activeCategory);
 
     return (
-        <div className="min-h-screen pt-20 bg-[#050505] text-white">
+        <div className="min-h-screen bg-[#050505] text-white">
             {/* Lightbox Modal */}
             <AnimatePresence>
                 {selectedImage && (

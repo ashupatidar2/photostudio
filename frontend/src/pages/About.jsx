@@ -10,7 +10,7 @@ const About = () => {
     ];
 
     return (
-        <div className="bg-[#050505] text-white pt-20">
+        <div className="bg-[#050505] text-white">
             {/* Cinematic Hero */}
             <section className="relative py-40 overflow-hidden flex items-center justify-center">
                 <div className="editorial-title absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] opacity-[0.03]">VISIONARY</div>

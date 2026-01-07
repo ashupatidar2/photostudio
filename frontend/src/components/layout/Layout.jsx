@@ -9,7 +9,7 @@ const Layout = () => {
         <SmoothScroll>
             <div className="min-h-screen flex flex-col bg-[#050505]">
                 <Header />
-                <main className="flex-grow">
+                <main className="flex-grow pt-20">
                     <Outlet />
                 </main>
                 <Footer />
