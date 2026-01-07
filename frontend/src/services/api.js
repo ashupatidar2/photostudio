@@ -1,4 +1,12 @@
-const API_BASE_URL = 'http://localhost:8000';
+const getBaseUrl = () => {
+    const hostname = window.location.hostname;
+    if (hostname === '127.0.0.1' || hostname === 'localhost') {
+        return `http://${hostname}:8000`;
+    }
+    return 'http://localhost:8000'; // Fallback
+};
+
+const API_BASE_URL = getBaseUrl();
 
 // Auth API calls
 export const signup = async (userData) => {
