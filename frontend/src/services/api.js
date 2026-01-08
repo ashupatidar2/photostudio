@@ -1,9 +1,17 @@
 const getBaseUrl = () => {
+    // Use environment variable if available (production)
+    if (import.meta.env.VITE_API_URL) {
+        return import.meta.env.VITE_API_URL;
+    }
+
+    // Local development fallback
     const hostname = window.location.hostname;
     if (hostname === '127.0.0.1' || hostname === 'localhost') {
         return `http://${hostname}:8000`;
     }
-    return 'http://localhost:8000'; // Fallback
+
+    // Default fallback
+    return 'http://localhost:8000';
 };
 
 const API_BASE_URL = getBaseUrl();
